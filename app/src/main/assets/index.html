@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harf | Stylish Fonts & Urdu Calligraphy Studio</title>
+    <meta name="description" content="Convert simple text to stylish Unicode fonts for bios, and design beautiful Urdu calligraphy cards using Nastaliq, Kufic, and Ruqaa scripts.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Baloo+Bhaijaan+2:wght@400..800&family=Gulzar&family=Lalezar&family=Noto+Nastaliq+Urdu:wght@400..700&family=Reem+Kufi:wght@400..700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <!-- Abstract Ambient Background Gradients -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <span>ح</span>
+                </div>
+                <div class="logo-text">
+                    <h1 id="app-title">Harf</h1>
+                    <p id="app-subtitle">Stylish Fonts & Calligraphy Studio</p>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="local-badge">
+                    <i data-lucide="shield-check"></i>
+                    <span id="label-privacy">100% Local & Safe</span>
+                </div>
+                <!-- Language Switcher -->
+                <div class="lang-switcher">
+                    <button class="lang-btn active" id="btn-lang-en" onclick="setLanguage('en')">English</button>
+                    <button class="lang-btn" id="btn-lang-ur" onclick="setLanguage('ur')">اردو</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <!-- Tabs Navigation -->
+            <div class="tabs-nav">
+                <button class="tab-link active" onclick="switchTab('english')" id="tab-btn-english">
+                    <i data-lucide="type"></i>
+                    <span id="label-tab-english">English Fonts</span>
+                </button>
+                <button class="tab-link" onclick="switchTab('urdu-text')" id="tab-btn-urdu-text">
+                    <i data-lucide="sparkles"></i>
+                    <span id="label-tab-urdu-text">Urdu Decorative</span>
+                </button>
+                <button class="tab-link" onclick="switchTab('calligraphy')" id="tab-btn-calligraphy">
+                    <i data-lucide="palette"></i>
+                    <span id="label-tab-calligraphy">Calligraphy Card Studio</span>
+                </button>
+            </div>
+
+            <!-- Input Console -->
+            <section class="input-console card-glass">
+                <div class="input-header">
+                    <span class="console-label">
+                        <i data-lucide="keyboard" class="label-icon"></i>
+                        <span id="label-input-heading">Enter Your Text</span>
+                    </span>
+                    <button class="clear-btn" onclick="clearInput()" id="btn-clear" title="Clear text">
+                        <i data-lucide="trash-2"></i>
+                    </button>
+                </div>
+                <textarea id="main-input" placeholder="Type your message here..." oninput="onTextInput()"></textarea>
+                
+                <!-- Quick Decorators Bar -->
+                <div class="decorators-bar" id="decorators-container">
+                    <span class="decorators-title" id="label-quick-decorators">Decorators:</span>
+                    <div class="decorators-list" id="decorators-list">
+                        <!-- Filled dynamically by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ENGLISH FONTS TAB -->
+            <section id="pane-english" class="tab-pane active">
+                <div class="pane-header">
+                    <h2 id="heading-english-results">Stylish Font Variations</h2>
+                    <div class="search-box">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" id="font-search" placeholder="Search font style..." oninput="filterFonts()">
+                    </div>
+                </div>
+                <div class="fonts-grid" id="english-fonts-grid">
+                    <!-- Cards will be populated by JS -->
+                </div>
+            </section>
+
+            <!-- URDU DECORATIVE TEXT TAB -->
+            <section id="pane-urdu-text" class="tab-pane">
+                <div class="pane-header">
+                    <h2 id="heading-urdu-text-results">Decorated Urdu Variations</h2>
+                </div>
+                <div class="fonts-grid" id="urdu-text-grid">
+                    <!-- Cards will be populated by JS -->
+                </div>
+            </section>
+
+            <!-- CALLIGRAPHY STUDIO TAB -->
+            <section id="pane-calligraphy" class="tab-pane">
+                <div class="studio-layout">
+                    <!-- Preview Card Area -->
+                    <div class="preview-column">
+                        <div class="sticky-preview">
+                            <div class="preview-header">
+                                <h3 id="label-preview-header">Live Card Preview</h3>
+                            </div>
+                            
+                            <!-- Interactive Rendered Card -->
+                            <div class="card-canvas-wrapper">
+                                <div id="calligraphy-card" class="calligraphy-card preset-midnight-mesh">
+                                    <div class="card-border-frame border-none"></div>
+                                    <div class="card-content-area">
+                                        <p id="card-text-display" class="card-main-text">حرف و قلم خطاطی اسٹوڈیو</p>
+                                        <p id="card-subtext-display" class="card-subtext"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="preview-actions">
+                                <button class="action-btn download-btn" onclick="downloadCardImage()" id="btn-download">
+                                    <i data-lucide="download"></i>
+                                    <span id="label-download-btn">Download Card (PNG)</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Editor Controls Area -->
+                    <div class="controls-column card-glass">
+                        <h3 class="controls-heading" id="label-controls-heading">Card Studio Controls</h3>
+                        
+                        <div class="control-group">
+                            <label id="label-ctrl-font" for="ctrl-font">Choose Calligraphy Style</label>
+                            <select id="ctrl-font" onchange="updateCardStyle()">
+                                <option value="'Noto Nastaliq Urdu', serif" selected>Noto Nastaliq (Classical)</option>
+                                <option value="'Gulzar', serif">Gulzar (Flowing/Decorative)</option>
+                                <option value="'Reem Kufi', sans-serif">Reem Kufi (Geometric/Kufic)</option>
+                                <option value="'Aref Ruqaa', serif">Aref Ruqaa (Ruqaa Script)</option>
+                                <option value="'Amiri', serif">Amiri (Traditional Naskh)</option>
+                                <option value="'Lalezar', sans-serif">Lalezar (Bold/Retro)</option>
+                                <option value="'Baloo Bhaijaan 2', cursive">Baloo Bhaijaan (Modern Round)</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="range-labels">
+                                <label id="label-ctrl-size" for="ctrl-size">Font Size</label>
+                                <span class="range-value" id="val-size">32px</span>
+                            </div>
+                            <input type="range" id="ctrl-size" min="18" max="72" value="32" oninput="updateCardStyle()">
+                        </div>
+
+                        <div class="control-group">
+                            <label id="label-ctrl-bg" for="ctrl-bg-preset">Background Style</label>
+                            <div class="bg-presets" id="ctrl-bg-preset">
+                                <button class="bg-preset-btn active" data-preset="midnight-mesh" onclick="selectBgPreset(this)" title="Midnight Mesh">
+                                    <span class="preset-preview bg-midnight-mesh"></span>
+                                </button>
+                                <button class="bg-preset-btn" data-preset="royal-gold" onclick="selectBgPreset(this)" title="Royal Gold">
+                                    <span class="preset-preview bg-royal-gold"></span>
+                                </button>
+                                <button class="bg-preset-btn" data-preset="emerald-glow" onclick="selectBgPreset(this)" title="Emerald Glow">
+                                    <span class="preset-preview bg-emerald-glow"></span>
+                                </button>
+                                <button class="bg-preset-btn" data-preset="sapphire-dream" onclick="selectBgPreset(this)" title="Sapphire Dream">
+                                    <span class="preset-preview bg-sapphire-dream"></span>
+                                </button>
+                                <button class="bg-preset-btn" data-preset="neon-sunset" onclick="selectBgPreset(this)" title="Neon Sunset">
+                                    <span class="preset-preview bg-neon-sunset"></span>
+                                </button>
+                                <button class="bg-preset-btn" data-preset="plum-velvet" onclick="selectBgPreset(this)" title="Plum Velvet">
+                                    <span class="preset-preview bg-plum-velvet"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label id="label-ctrl-frame" for="ctrl-frame">Border Frame</label>
+                            <select id="ctrl-frame" onchange="updateCardStyle()">
+                                <option value="none" id="opt-frame-none" selected>No Border</option>
+                                <option value="gold-ornate" id="opt-frame-gold">Classic Gold Border</option>
+                                <option value="thin-white" id="opt-frame-thin">Minimalist Border</option>
+                                <option value="double-royal" id="opt-frame-double">Royal Double Border</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="range-labels">
+                                <label id="label-ctrl-glow" for="ctrl-glow">Glow & Shadow Blur</label>
+                                <span class="range-value" id="val-glow">10px</span>
+                            </div>
+                            <input type="range" id="ctrl-glow" min="0" max="30" value="10" oninput="updateCardStyle()">
+                        </div>
+
+                        <div class="control-row">
+                            <div class="control-group flex-1">
+                                <label id="label-ctrl-text-color" for="ctrl-text-color">Text Color</label>
+                                <div class="color-picker-wrapper">
+                                    <input type="color" id="ctrl-text-color" value="#ffffff" onchange="updateCardStyle()">
+                                    <span class="color-picker-hex">#FFFFFF</span>
+                                </div>
+                            </div>
+                            
+                            <div class="control-group flex-1">
+                                <label id="label-ctrl-glow-color" for="ctrl-glow-color">Glow Color</label>
+                                <div class="color-picker-wrapper">
+                                    <input type="color" id="ctrl-glow-color" value="#ffd700" onchange="updateCardStyle()">
+                                    <span class="color-picker-hex">#FFD700</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label id="label-ctrl-subtext" for="ctrl-subtext">Signature / Poet Name</label>
+                            <input type="text" id="ctrl-subtext" placeholder="e.g. Allama Iqbal / علامہ اقبال" oninput="updateCardStyle()">
+                        </div>
+
+                        <div class="control-group">
+                            <span class="control-section-label" id="label-quick-insert-card">Quick Add Decorators to Canvas:</span>
+                            <div class="decorators-list-card">
+                                <button class="decor-card-btn" onclick="addDecorToCard('﷽')">﷽</button>
+                                <button class="decor-card-btn" onclick="addDecorToCard('ﷺ')">ﷺ</button>
+                                <button class="decor-card-btn" onclick="addDecorToCard('ﷻ')">ﷻ</button>
+                                <button class="decor-card-btn" onclick="addDecorToCard('ؑ')">ؑ</button>
+                                <button class="decor-card-btn" onclick="addDecorToCard('ؓ')">ؓ</button>
+                                <button class="decor-card-btn" onclick="addDecorToCard('ؒ')">ؒ</button>
+                                <button class="decor-card-btn" onclick="addDecorToCard('ؔ')">ؔ</button>
+                                <button class="decor-card-btn" onclick="addDecorToCard('ؕ')">ؕ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Toast Notification for Copy -->
+        <div id="toast" class="toast hidden">
+            <i data-lucide="check-circle" class="toast-icon"></i>
+            <span id="toast-message">Copied to clipboard!</span>
+        </div>
+        
+        <footer class="app-footer">
+            <p id="label-footer">Crafted with ♥ • Harf © 2026</p>
+        </footer>
+    </div>
+
+    <!-- Script loading -->
+    <script src="script.js"></script>
+</body>
+</html>
